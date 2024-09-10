@@ -1,26 +1,29 @@
 # Introduction
-This is 2HAutoScraper and it's built for those who want a Car with a special deal
-https://www.autoscout24.it/lst/mercedes-benz?atype=C&cy=I&damaged_listing=exclude&desc=0&mmvco=1&powertype=kw&search_id=2z2hou64ls&sort=standard&ustate=N%2CU
-mi salvo i dati della filter in un oggetto nella solita cartella, e vado a riprendermi le informazioni all'apertura
-marca
-fuel = {
-    "diesel":"D",
-    "ga[get_inputs.py](modules%2Fget_inputs.py)soline":"B",
-    "gpl":"L",
-    "methane":"C",
-}
-
-&fuel=C%2CD
+This is CarScraper and it's built for those who want a Car with a special deal
 
 ## Config and Storage
 
 ### Where to store the app
 The script goes in the ```C:\Users\<user>``` directory or in a subfolder of that directory
 
-### Link storage
-Every car analysed goes in the file ```C:\Users\<user>\car_storage.json```
+### Schema
+Within the usage of the application you'll be asked to insert filters for the car scraping. Once you've given you're preferences the system will generate a JSON schema describing you're input in  ```./schema/car_schema.json```. This schema will be suggested to be retrieve every time you'll perform a new scraping. **Note: if you create a new schema, it will replace the old one**
 
-The logic behind the storage is easy. Every time a new basic report is generated, a new item is added to the array obj present in the file mentioned above.
+### Link storage
+Every car analysed goes in the file ```C:\Users\<user>\car_storage.json```. This file is used for caching purpose and allows to skip the basic report and build directly an advance one, on the top of the scrapings you made last times.
+
+### Reports
+The reports will be created under the report directory. Reports are of two kinds:
+* **basic report**: scraping of the PLPs of the cars according to the filters stored in ```./schema/car_schema.json```
+* **advanced report**: scraping of the PDPs according to the links scraped within the PLPs in the **basic report**. Advanced report can be performed even on a time range.
+
+
+
+
+
+
+
+The logic behind the storage is easy. Every time a new basic report is generated, a new item is added to the JSON present in the ```C:\Users\<user>\car_storage.json``` file mentioned above.
 The structure of the items looks like this:
 ```
     {
@@ -40,6 +43,16 @@ The structure of the items looks like this:
 ```
 When you generate a new report there is a check on the URLs already stored, to avoid duplications and too much data usage. This also allows to bind this app to a daily automation which returns just the recent updated cars.
 
-The storage of these items is useful to retrieve them based on a *time range*, *id*, or *filter_schema*.
+The storage of these items is useful to retrieve items based on a *time range* and soon also *id*, or *filter_schema*.
 
 I recommend allow the system to delete the cache more frequently if it's not used behind an automation.
+
+
+### Future improvements
+#### User:
+* Add filters to schema
+* Give the possibility to filter the links by schema
+  
+#### Sys:
+* Manage the advanced report in multi thread and queues like the basic report
+
