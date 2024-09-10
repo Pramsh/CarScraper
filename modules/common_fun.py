@@ -63,5 +63,3 @@ def ab_input(msg):
     if answer != "a" and answer != "b":
         return ab_input(msg)
     return answer
-
-#delete report basic if exist, delete report advance if exists and delete the link if exist
